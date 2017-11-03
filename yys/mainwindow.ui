@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -98,7 +101,7 @@
        <string>计数：</string>
       </property>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -138,11 +141,9 @@
        </item>
       </layout>
      </widget>
-     <zorder>label</zorder>
-     <zorder>textBrowser</zorder>
+     <zorder>layoutWidget</zorder>
      <zorder>layoutWidget</zorder>
      <zorder>label_3</zorder>
-     <zorder>textBrowser_3</zorder>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
