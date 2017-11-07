@@ -8,7 +8,18 @@
 #include "opencv2/highgui/highgui.hpp"
 #include "iostream"
 #include <QMainWindow>
+#include <QtCore/qpoint.h>
+#include <QtGui/qwindowdefs.h>
+#include <QThread>
+#include <QObject>
+#include <QScreen>
+#include <QTimer>
 #include "yaoqi.h"
+#include "qcursor.h"
+#include <QDateTime>
+#include <time.h>
+#include <stdlib.h>
+#include <playthread.h>
 namespace Ui {
 class MainWindow;
 }
@@ -19,12 +30,20 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
+    void msleep(int msec,int scare);
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+private slots:
+    void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
 
 private:
+    playthread pthread;
     Ui::MainWindow *ui;
     yaoqi m_yaoqi;
+    bool m_bstart=false;
+    Mat mat_screen;
 };
 
 #endif // MAINWINDOW_H

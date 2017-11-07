@@ -5,23 +5,62 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    namedWindow("1", CV_WINDOW_AUTOSIZE);
-    ui->setupUi(this);
-    Mat mat1,mat2;
-    mat1=imread(".\\yys\\3.png");
-    mat2=imread(".\\yys\\step2\\select.png");
-    Point pstart= m_yaoqi.match(mat1,mat2,1000);
-    if(pstart.x==0&&pstart.y==0){
-        cout<<"dd"<<endl;
-    }else{
-        Point pointl=Point( pstart.x + mat2.cols , pstart.y + mat2.rows );
-        rectangle( mat1, pstart, pointl, Scalar::all(0), 2, 8, 0);
-    }
 
-    imshow("1",mat1);
+    ui->setupUi(this);
+    //m_yaoqi.touchpos(Point(15,15));
+    //获取主屏幕
+    //namedWindow("1", CV_WINDOW_AUTOSIZE);
+    /*while(1){
+        if(1){
+            QScreen *screen = QGuiApplication::primaryScreen();
+            //抓屏
+            QPixmap pix= screen->grabWindow(0);
+            QImage img= pix.toImage();
+            mat_screen = m_yaoqi.qimage2mat(img);
+            imshow("1",mat_screen);
+            waitKey(100);
+            int sleeptime=calrand(0,5);
+            cout<<sleeptime<<endl;
+            msleep(1,1000);
+        }
+
+    }*/
+
+}
+
+
+void MainWindow::msleep(int msec,int scare)//自定义Qt延时函数,单位秒
+{
+    QDateTime last = QDateTime::currentDateTime();
+    QDateTime now;
+    while (1)
+    {
+        now = QDateTime::currentDateTime();
+        if (last.msecsTo(now)/scare >= msec)
+        {
+            break;
+        }
+    }
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+
+
+void MainWindow::on_pushButton_clicked()
+{
+    m_bstart=true;
+    //m_yaoqi.touchpos(15,700);
+    pthread.start();
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    m_bstart=true;
+    if(pthread.isRunning()){
+        pthread.stop();
+    }
 }

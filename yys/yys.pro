@@ -16,12 +16,14 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     yaoqi.cpp \
     activity.cpp \
-    point.cpp
+    point.cpp \
+    playthread.cpp
 
 HEADERS  += mainwindow.h \
     yaoqi.h \
     activity.h \
-    point.h
+    point.h \
+    playthread.h
 
 FORMS    += mainwindow.ui
 LIBS += -Lopencv_ffmpeg2412_64.dll
