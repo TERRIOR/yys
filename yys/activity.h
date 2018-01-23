@@ -1,4 +1,4 @@
-#ifndef ACTIVITY_H
+﻿#ifndef ACTIVITY_H
 #define ACTIVITY_H
 #include "opencv2/calib3d/calib3d.hpp"
 #include "opencv2/contrib/contrib.hpp"
@@ -17,6 +17,8 @@
 #include <QDateTime>
 #include "iostream"
 #include "point.h"
+#include "Wingdi.h"
+#pragma comment(lib, "Gdi32.lib")
 #pragma comment(lib,"user32.lib")
 using namespace cv;
 using namespace std;
@@ -24,9 +26,8 @@ class activity
 {
 public:
     activity();
-
     Mat getscreen();
-
+    Mat getscreen2(HWND hwnd,RECT rc);
     Mat getmask(Size size1,Size size2,Point p);
     Mat getplaymat(Size size2, Point p);
     void msleep(int msec,int scare);
@@ -44,14 +45,18 @@ public:
     Point getrandxy(Point p,Size size);
     void touchfromstring(String s,int thread);
     void refresh();
+    BOOL HBitmapToMat(HBITMAP &_hBmp, Mat &_mat);
+    void refresh2(HWND hwnd, RECT rc);
+    void MouseLeftClick(HWND gameh, Point p);
+    HBITMAP CaptureScreen(bool FullScreen, HWND hwnd);
 protected:
     Mat m_mscreen;
     Mat m_mask;
     Mat m_playroi;
     Point toppoint;
     Size screen_size;
-    const int screenx=1204;//屏幕的分辨率
-    const int screeny=680;//同上
+    const int screenx=1031;//屏幕的分辨率
+    const int screeny=610;//同上
     const int button_directory=110;
 private:
     const int match_method=0;

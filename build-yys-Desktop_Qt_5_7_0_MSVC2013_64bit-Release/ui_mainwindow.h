@@ -45,6 +45,8 @@ public:
     QWidget *tab_2;
     QWidget *tab;
     QWidget *tab_3;
+    QLabel *label_4;
+    QLabel *label_5;
     QPushButton *pushButton;
     QPushButton *pushButton_2;
     QMenuBar *menuBar;
@@ -125,6 +127,14 @@ public:
         tabWidget->addTab(tab, QString());
         tab_3 = new QWidget();
         tab_3->setObjectName(QStringLiteral("tab_3"));
+        label_4 = new QLabel(tab_3);
+        label_4->setObjectName(QStringLiteral("label_4"));
+        label_4->setGeometry(QRect(20, 20, 101, 21));
+        label_4->setFont(font);
+        label_5 = new QLabel(tab_3);
+        label_5->setObjectName(QStringLiteral("label_5"));
+        label_5->setGeometry(QRect(20, 60, 101, 21));
+        label_5->setFont(font);
         tabWidget->addTab(tab_3, QString());
         pushButton = new QPushButton(centralWidget);
         pushButton->setObjectName(QStringLiteral("pushButton"));
@@ -146,7 +156,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(3);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -164,6 +174,8 @@ public:
         tabWidget->setTabText(tabWidget->indexOf(tab_4), QApplication::translate("MainWindow", "\345\246\226\346\260\224\345\260\201\345\215\260", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MainWindow", "\347\237\263\350\267\235", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("MainWindow", "\345\211\257\346\234\254", 0));
+        label_4->setText(QApplication::translate("MainWindow", "\346\254\241\346\225\260: ", 0));
+        label_5->setText(QApplication::translate("MainWindow", "\344\275\223\345\212\233: ", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("MainWindow", "\345\276\241\351\255\202", 0));
         pushButton->setText(QApplication::translate("MainWindow", "Start", 0));
         pushButton_2->setText(QApplication::translate("MainWindow", "End", 0));

@@ -1,4 +1,4 @@
-#include "yaoqi.h"
+﻿#include "yaoqi.h"
 
 yaoqi::yaoqi()
 {
@@ -12,13 +12,84 @@ void yaoqi::start()
 
 void yaoqi::run()
 {
+    bool findhwnd;
+    RECT rc;
+    HWND hwnd = FindWindow(NULL,TEXT("夜神模拟器")); //注意窗口不能最小化
+    if (hwnd == NULL)
+    {
+       cout << "no text " << endl;
+       //return 0;
+       findhwnd=false;
+    }else findhwnd=true;
+    GetClientRect(hwnd, &rc);
     Mat findimg,findimg2;
+    Point matchp;
+    int count=0;
+    init();
+    while(getBrun()&&findhwnd){
 
-    while(getBrun()){
-        init();
-        //cout<<"yaoqi start"<<endl;
+
         msleep(100,1);
-        if(m_binited){
+        if(1){
+            Point mid2=Point(830,400);
+            Point mid=Point(toppoint.x+830,toppoint.y+400);
+            cout<<"hunshi"<<endl;
+            findimg=imread("yys//step2//shengli3.png");
+
+            cout<<findimg.channels()<<"  "<<findimg.depth()<<" "<<findimg.type()<<endl;
+            while(1){
+                //refresh();
+                refresh2(hwnd,rc);
+                //imshow("da",m_playroi);
+                cout<<m_playroi.rows<<"  "<<m_playroi.cols<<" "<<m_playroi.empty()<<endl;
+                //waitKey(100);
+
+                msleep(calrand(200,500),1);
+
+                if(m_playroi.rows<400&&m_playroi.cols<500){
+                    cout<<"mined"<<endl;
+                    continue;
+                }
+                cout<<"step1"<<endl;
+                matchp=match(m_playroi,findimg,10);
+                if(ifexsite( matchp)){
+                    cout<<"step1:  "<<matchp.x<<" "<<matchp.y<<endl;
+                    //touchpos(getrandxy( mid,Size(300,300)));
+                    MouseLeftClick(hwnd,getrandxy( mid2,Size(300,300)));
+                    break;
+                }
+
+
+            }
+            findimg2=imread("yys//step2//jiangli3.png");
+            Point p=getrandxy( mid2,Size(290,250));
+            while(1){
+                //refresh();
+                refresh2(hwnd,rc);
+                cout<<"step2"<<endl;
+                msleep(calrand(200,500),1);
+                //touchpos(getrandxy( p,Size(80,80)));
+                MouseLeftClick(hwnd,getrandxy( p,Size(60,60)));
+                if(m_playroi.rows<400&&m_playroi.cols<500){
+                    cout<<"mined"<<endl;
+                    continue;
+                }
+                matchp=match(m_playroi,findimg2,10);
+                count++;
+                if(ifexsite(matchp))
+                {
+                  count=18;
+                }
+                if(count>20){
+                    cout<<"step2:  "<<matchp.x<<" "<<matchp.y<<endl;
+                    count=0;
+                    break;
+                }
+            }
+
+
+        }
+        /*if(m_binited){
             //获得妖气封印对应的坐标
             touchpos(getrandxy(getselectpos(2),Size(button_directory,button_directory)));
             msleep(calrand(0,10),100);
@@ -54,7 +125,8 @@ void yaoqi::run()
             cout<<"find join!"<<endl;
             msleep(calrand(0,100),1000);
             m_binited=false;
-        }
+
+        }*/
 
 
     }
@@ -64,8 +136,8 @@ void yaoqi::run()
 void yaoqi::init()
 {
     m_mscreen=getscreen();
-    Mat martchtop=imread("yys//step1//kuangdw3.png");
-    toppoint=match(m_mscreen,martchtop,10000);
+    Mat martchtop=imread("yys//step1//2.png");
+    toppoint=match(m_mscreen,martchtop,100);
 
     //cout<<m_mscreen.cols<<"  "<<m_mscreen.rows<<endl;
     if(ifexsite(toppoint)){

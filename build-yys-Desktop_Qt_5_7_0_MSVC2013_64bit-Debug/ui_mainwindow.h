@@ -38,7 +38,7 @@ public:
     QLabel *label_2;
     QPlainTextEdit *plainTextEdit_2;
     QLabel *label_3;
-    QWidget *widget;
+    QWidget *layoutWidget1;
     QHBoxLayout *horizontalLayout;
     QLabel *label;
     QPlainTextEdit *plainTextEdit;
@@ -55,6 +55,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
+        MainWindow->setWindowModality(Qt::NonModal);
         MainWindow->resize(393, 320);
         MainWindow->setMinimumSize(QSize(393, 304));
         MainWindow->setMaximumSize(QSize(1000, 3040));
@@ -91,29 +92,29 @@ public:
         label_3 = new QLabel(tab_4);
         label_3->setObjectName(QStringLiteral("label_3"));
         label_3->setGeometry(QRect(20, 140, 54, 12));
-        widget = new QWidget(tab_4);
-        widget->setObjectName(QStringLiteral("widget"));
-        widget->setGeometry(QRect(10, 11, 309, 31));
-        horizontalLayout = new QHBoxLayout(widget);
+        layoutWidget1 = new QWidget(tab_4);
+        layoutWidget1->setObjectName(QStringLiteral("layoutWidget1"));
+        layoutWidget1->setGeometry(QRect(10, 11, 309, 31));
+        horizontalLayout = new QHBoxLayout(layoutWidget1);
         horizontalLayout->setSpacing(6);
         horizontalLayout->setContentsMargins(11, 11, 11, 11);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         horizontalLayout->setContentsMargins(0, 0, 0, 0);
-        label = new QLabel(widget);
+        label = new QLabel(layoutWidget1);
         label->setObjectName(QStringLiteral("label"));
         label->setMaximumSize(QSize(16777215, 29));
         label->setFont(font);
 
         horizontalLayout->addWidget(label);
 
-        plainTextEdit = new QPlainTextEdit(widget);
+        plainTextEdit = new QPlainTextEdit(layoutWidget1);
         plainTextEdit->setObjectName(QStringLiteral("plainTextEdit"));
         plainTextEdit->setMaximumSize(QSize(16777215, 29));
 
         horizontalLayout->addWidget(plainTextEdit);
 
         tabWidget->addTab(tab_4, QString());
-        label->raise();
+        layoutWidget->raise();
         layoutWidget->raise();
         label_3->raise();
         tab_2 = new QWidget();

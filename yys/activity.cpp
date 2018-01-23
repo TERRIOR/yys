@@ -1,4 +1,4 @@
-#include "activity.h"
+﻿#include "activity.h"
 
 activity::activity()
 {
@@ -15,7 +15,79 @@ Mat activity::getscreen()
     return qimage2mat(img);
 }
 
+Mat activity::getscreen2(HWND hwnd,RECT rc)
+{
+    /*
+    HDC hdcScreen = GetDC(NULL);
+    HDC hdc = CreateCompatibleDC(hdcScreen);
+    HBITMAP hbmp = CreateCompatibleBitmap(hdcScreen, rc.right - rc.left, rc.bottom - rc.top);
 
+
+    //复制
+    hdc=GetWindowDC(hwnd);
+    SelectObject(hdc, hbmp);
+    */
+    //PrintWindow(hwnd, hdc, PW_CLIENTONLY);
+   //PW_CLIENTONLY：Only the client area of the window is copied to hdcBlt.
+   //By default, the entire window is copied.
+   //PW_CLIENTONLY表示仅仅拷贝窗口的客户区域，而默认情况下，执行printwindow会拷贝整个窗口
+    HBITMAP hbmp=CaptureScreen(false,hwnd);
+    Mat mat1;
+    HBitmapToMat(hbmp,mat1);
+    cvtColor(mat1 , mat1 , CV_RGBA2RGB);
+    return mat1;
+}
+HBITMAP activity::CaptureScreen(bool FullScreen, HWND hwnd)
+{
+    HDC hDC;
+    if(FullScreen)
+        hDC = GetDC(NULL); //Get full screen
+    else
+    {
+        hDC = GetWindowDC(hwnd); //Now get it's DC handle
+    }
+    HDC hMemDC = CreateCompatibleDC(hDC);
+    RECT r;
+    GetWindowRect(hwnd,&r); //need this for Form
+    SIZE size;
+    if(FullScreen)
+    {
+        size.cx = GetSystemMetrics(SM_CXSCREEN);
+        size.cy = GetSystemMetrics(SM_CYSCREEN);
+    }
+    else
+    {
+        size.cx = r.right-r.left;
+        size.cy = r.bottom-r.top;
+    }
+
+    //most of the remaining code is normal GDI stuff
+
+    HBITMAP hBitmap = CreateCompatibleBitmap(hDC, size.cx, size.cy);
+    if (hBitmap)
+    {
+        HBITMAP hOld = (HBITMAP) SelectObject(hMemDC, hBitmap);
+        BitBlt(hMemDC, 0, 0, size.cx, size.cy, hDC, 0, 0, SRCCOPY);
+        SelectObject(hMemDC, hOld);
+        DeleteDC(hMemDC);
+        ReleaseDC(NULL, hDC);
+    }
+
+    return hBitmap;
+}
+BOOL activity::HBitmapToMat(HBITMAP& _hBmp,Mat& _mat)
+
+{
+    BITMAP bmp;
+    GetObject(_hBmp,sizeof(BITMAP),&bmp);
+    int nChannels = bmp.bmBitsPixel == 1 ? 1 : bmp.bmBitsPixel/8 ;
+    int depth = bmp.bmBitsPixel == 1 ? IPL_DEPTH_1U : IPL_DEPTH_8U;
+    Mat v_mat;
+    v_mat.create(cvSize(bmp.bmWidth,bmp.bmHeight), CV_MAKETYPE(CV_8U,nChannels));
+    GetBitmapBits(_hBmp,bmp.bmHeight*bmp.bmWidth*nChannels,v_mat.data);
+    _mat=v_mat;
+    return TRUE;
+}
 
 Mat activity::getmask(Size size1, Size size2, Point p)
 {
@@ -48,14 +120,27 @@ void activity::touchpos(Point p)
 {
     if(ifexsite(p)){
         qDebug()<<"mouse clicked";
+
         movetopos(p,10);
-        Sleep(calrand(0,10));
+        Sleep(calrand(0,100));
         mouse_event(MOUSEEVENTF_LEFTDOWN ,0,0,0,0);
         Sleep(calrand(0,10));
         mouse_event(MOUSEEVENTF_LEFTUP,0,0,0,0);
     }
 }
+void activity::MouseLeftClick(HWND gameh,Point p)
+{
+    if(ifexsite(p)){
+        qDebug()<<"mouse clicked";
+        //movetopos(p,10);
+        Sleep(calrand(0,10));
+        LPARAM lparam = MAKELPARAM(p.x,p.y); //x坐标，y坐标
+        LRESULT result =::SendMessage(gameh,WM_LBUTTONDOWN,VK_LBUTTON,lparam);
+        LRESULT result1 =::SendMessage(gameh,WM_LBUTTONUP,0,lparam);
+        //TRACE("鼠标按下%d,弹起%d",result,result1);
+    }
 
+}
 
 
 Point activity::match(const Mat &finded_img, const Mat &find_img, const int thread)
@@ -228,7 +313,9 @@ void activity::refresh()
     m_playroi=getplaymat(screen_size,toppoint);
 }
 
-
+void activity::refresh2(HWND hwnd,RECT rc){
+    m_playroi=getscreen2(hwnd,rc);
+}
 Mat activity::qimage2mat(const QImage& qimage)
 {
     Mat mat =Mat(qimage.height(), qimage.width(), CV_8UC4, (uchar*)qimage.bits(), qimage.bytesPerLine());
