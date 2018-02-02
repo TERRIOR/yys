@@ -5,12 +5,18 @@
 #-------------------------------------------------
 
 QT       += core gui
-
+QT       += multimedia
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = yys
 TEMPLATE = app
+RC_FILE = app.rc
 
+RESOURCES += \
+    app.qrc
+
+DISTFILES += \
+    app.rc
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -74,3 +80,4 @@ LIBS += -LE:\opencv\opencv\build\x64\vc12\lib \
 -lopencv_legacy2412 \
 -lopencv_ml2412
 }
+

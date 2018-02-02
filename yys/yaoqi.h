@@ -1,4 +1,4 @@
-#ifndef YAOQI_H
+﻿#ifndef YAOQI_H
 #define YAOQI_H
 #include "opencv2/calib3d/calib3d.hpp"
 #include "opencv2/contrib/contrib.hpp"
@@ -19,18 +19,31 @@ class yaoqi:public activity
 public:
     yaoqi();
     void start();
-    void run();
+    void run(HWND hwnd, RECT rc);
     void init();//获取游戏区域
     void end();
 
     Point getselectpos(int i);
+
+    bool getBifking() const;
+    void setBifking(int bifking);
+
+    bool getBifjoin() const;
+    void setBifjoin(bool bifjoin);
+
+    bool getBifcap() const;
+    void setBifcap(bool bifcap);
+
 private:
 
-
+    bool m_bifking;
+    bool m_bifjoin;
+    bool m_bifcap;
     int m_imodel;
     int m_icount;
     bool m_binited=false;
     //bool m_bstart;
+
 };
 
 #endif // YAOQI_H

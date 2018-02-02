@@ -1,4 +1,4 @@
-#ifndef MAINWINDOW_H
+﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include "opencv2/calib3d/calib3d.hpp"
 #include "opencv2/contrib/contrib.hpp"
@@ -20,6 +20,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <playthread.h>
+
 namespace Ui {
 class MainWindow;
 }
@@ -37,8 +38,9 @@ private slots:
     void on_pushButton_clicked();
 
     void on_pushButton_2_clicked();
-
+    void countuiplus(int count);
 private:
+    string editstr;
     playthread pthread;
     Ui::MainWindow *ui;
     yaoqi m_yaoqi;

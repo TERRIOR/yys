@@ -27,7 +27,7 @@ class activity
 public:
     activity();
     Mat getscreen();
-    Mat getscreen2(HWND hwnd,RECT rc);
+    Mat getscreen2(HWND hwnd, RECT rc);
     Mat getmask(Size size1,Size size2,Point p);
     Mat getplaymat(Size size2, Point p);
     void msleep(int msec,int scare);
@@ -48,7 +48,7 @@ public:
     BOOL HBitmapToMat(HBITMAP &_hBmp, Mat &_mat);
     void refresh2(HWND hwnd, RECT rc);
     void MouseLeftClick(HWND gameh, Point p);
-    HBITMAP CaptureScreen(bool FullScreen, HWND hwnd);
+    Mat CaptureScreen(bool FullScreen,HWND hwnd);
 protected:
     Mat m_mscreen;
     Mat m_mask;
